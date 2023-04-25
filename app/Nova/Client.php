@@ -142,6 +142,7 @@ class Client extends Resource
             HasMany::make(__('Adresse du client'), 'ClientAddress', ClientAddress::class),
             HasMany::make(__('Contact du client'), 'ClientContact', ClientContact::class),
             HasMany::make(__('Document du client'), 'ClientDocument', ClientDocument::class),
+            HasMany::make(__('Task du client'), 'ClientTask', Task::class),
             HasMany::make(__('Note du client'), 'ClientNote', ClientNote::class),
         ];
     }

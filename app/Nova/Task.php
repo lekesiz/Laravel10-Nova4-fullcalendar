@@ -23,6 +23,9 @@ class Task extends Resource
      */
     public static $model = \App\Models\Task::class;
 
+    // menuden kaldirmak icin
+    public static $displayInNavigation = false;
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *

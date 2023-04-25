@@ -41,4 +41,7 @@ class Client extends Model
     public function ClientNote() {
         return $this->hasMany(ClientNote::class);
     }
+    public function ClientTask() {
+        return $this->hasMany(Task::class);
+    }
 }
