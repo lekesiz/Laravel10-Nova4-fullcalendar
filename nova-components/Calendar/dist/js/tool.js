@@ -23889,10 +23889,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       case 3:
                         _response = _context2.sent;
                         userResource = _response.data.resources.find(function (resource) {
-                          var nameField = resource.fields.find(function (field) {
-                            return field.attribute === 'name';
+                          var usernameField = resource.fields.find(function (field) {
+                            return field.attribute === 'username';
                           });
-                          return nameField.value === username;
+                          return usernameField.value === username;
                         });
                         if (!userResource) {
                           _context2.next = 10;

@@ -57,7 +57,12 @@ class Task extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make(__('Type'), 'type')
+            Select::make(__('Type'), 'type')
+                ->options([
+                    'Appel' => 'Appel',
+                    'Tâche' => 'Tâche',
+                    'Rendez-vous' => 'Rendez-vous',
+                ])
                 ->sortable()
                 ->rules('required', 'max:255'),
 

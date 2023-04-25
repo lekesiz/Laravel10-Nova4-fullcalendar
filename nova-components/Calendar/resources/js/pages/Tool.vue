@@ -110,8 +110,8 @@ export default {
         try {
           const response = await axios.get(`/nova-api/users?search=${username}`);
           const userResource = response.data.resources.find(resource => {
-            const nameField = resource.fields.find(field => field.attribute === 'name');
-            return nameField.value === username;
+            const usernameField = resource.fields.find(field => field.attribute === 'username');
+            return usernameField.value === username;
           });
 
           if (userResource) {

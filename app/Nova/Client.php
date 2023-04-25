@@ -59,7 +59,8 @@ class Client extends Resource
                 ->sortable()
                 ->rules('required', 'max:254')
                 ->default(function () {
-                    return Carbon::now()->format('YmdHi');
+                    $randomString = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 11)), 0, 11);
+                    return Carbon::now()->format('YmdHi') . $randomString;
                 }),
 
             Select::make(__('Type Client'), 'client_type')
@@ -145,12 +146,14 @@ class Client extends Resource
                 ->nullable(),
 
             Textarea::make(__('Conditions de règlement'), 'payment_conditions')
+                ->alwaysShow()
                 ->size('w-1/2')
                 ->hideFromIndex()
                 ->sortable()
                 ->nullable(),
 
             Textarea::make(__('Notes'), 'notes')
+                ->alwaysShow()
                 ->size('w-1/2')
                 ->hideFromIndex()
                 ->sortable()

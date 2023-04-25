@@ -28,6 +28,20 @@ class User extends Resource
     {
         return __('Utilisateur');
     }
+
+    // 
+    public static function newModel()
+    {
+        $model = new static::$model;
+        $model::creating(function ($user) {
+            $user->username = $user->name . $user->last_name;
+        });
+        $model::updating(function ($user) {
+            $user->username = $user->name . $user->last_name;
+        });
+        return $model;
+    }
+
     /**
      * The model the resource corresponds to.
      *
@@ -40,7 +54,7 @@ class User extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'username';
 
     /**
      * The columns that should be searched.
@@ -48,7 +62,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'email', 'last_name', 'username'
     ];
 
     /**
@@ -64,8 +78,8 @@ class User extends Resource
             Avatar::make('Avatar'),
             Color::make('Couleur', 'color')->nullable(),
             Text::make('Utilisateur', 'username')
-                ->sortable()
-                ->rules('required', 'max:255'),
+                ->nullable()
+                ->sortable(),
             Text::make('Nom', 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),
@@ -74,7 +88,6 @@ class User extends Resource
                 ->rules('required', 'max:255'),
             Text::make('Mobile')->nullable(),
             Text::make('Adresse', 'addresse')->nullable()->hideFromIndex(),
-            // Boolean::make('Actif', 'is_active'),
             NovaSwitcher::make('Actif/Passif', 'is_active'),
             NovaSwitcher::make('Administrateur', 'is_admin'),
             Text::make('Email')

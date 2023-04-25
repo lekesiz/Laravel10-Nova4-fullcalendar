@@ -60,9 +60,11 @@ class Company extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Email::make(__('E-mail'), 'email')
+            Text::make(__('E-mail'), 'email')
                 ->sortable()
-                ->rules('required', 'email', 'max:255', Rule::unique('companies', 'email')),
+                ->rules('required', 'email', 'max:254')
+                ->creationRules('unique:companies,email')
+                ->updateRules('unique:companies,email,{{resourceId}}'),
 
             Text::make(__('Numéro de telephone'), 'phone_number')
                 ->sortable()
@@ -73,6 +75,7 @@ class Company extends Resource
                 ->nullable(),
 
             Textarea::make(__('Adresse'), 'address')
+                ->alwaysShow()
                 ->sortable()
                 ->nullable(),
 
@@ -137,5 +140,20 @@ class Company extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function authorizedToCreate(Request $request) {
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request) {
+        return true;
+    }
+
+    public function authorizedToDelete(Request $request) {
+        return false;
+    }
+    public function authorizedToReplicate(Request $request) {
+        return false;
     }
 }
