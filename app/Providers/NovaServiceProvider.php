@@ -6,6 +6,7 @@ use Laravel\Nova\Nova;
 use Netz\Calendar\Calendar;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Blade;
+use CodencoDev\NovaGridSystem\NovaGridSystem;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -76,6 +77,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             new Calendar,
+            new NovaGridSystem,
         ];
     }
 

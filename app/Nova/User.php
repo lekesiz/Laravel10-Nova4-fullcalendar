@@ -15,6 +15,7 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
+use Trin4ik\NovaSwitcher\NovaSwitcher;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
@@ -73,8 +74,9 @@ class User extends Resource
                 ->rules('required', 'max:255'),
             Text::make('Mobile')->nullable(),
             Text::make('Adresse', 'addresse')->nullable()->hideFromIndex(),
-            Boolean::make('Actif', 'is_active'),
-            Boolean::make('Administrateur', 'is_admin'),
+            // Boolean::make('Actif', 'is_active'),
+            NovaSwitcher::make('Actif/Passif', 'is_active'),
+            NovaSwitcher::make('Administrateur', 'is_admin'),
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
