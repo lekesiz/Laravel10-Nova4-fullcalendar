@@ -56,6 +56,13 @@ class User extends Resource
      */
     public static $title = 'username';
 
+    // public function title() {
+    //     return $this->name . ' ' . $this->last_name;
+    // }    
+    // public function subtitle() {
+    //     return $this->email;
+    // }
+
     /**
      * The columns that should be searched.
      *

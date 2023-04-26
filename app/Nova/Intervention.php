@@ -75,6 +75,7 @@ class Intervention extends Resource
             Number::make('Nombre des Déplacements', 'number_of_trips')
                 ->nullable()
                 ->sortable()
+                ->hideFromIndex()
                 ->size('w-1/3'),
             Textarea::make("Adresse d'intervention", 'intervention_address')
                 ->nullable()
@@ -97,6 +98,7 @@ class Intervention extends Resource
                 ->size('w-1/3'),
             ID::make('Gestion interventions', 'id')
                 ->sortable()
+                ->hideFromIndex()
                 ->size('w-1/3'),
             BelongsToMany::make('Articles', 'articles', Article::class)
                 ->searchable()

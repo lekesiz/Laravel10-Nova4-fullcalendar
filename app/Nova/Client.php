@@ -23,12 +23,12 @@ class Client extends Resource
      */
     public static $model = \App\Models\Client::class;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'last_name';
+    public function title() {
+        return $this->first_name . ' ' . $this->last_name;
+    }    
+    public function subtitle() {
+        return $this->email;
+    }
 
     /**
      * The columns that should be searched.
@@ -39,6 +39,7 @@ class Client extends Resource
         'id',
         'last_name',
         'first_name',
+        'reference',
     ];
 
     /**

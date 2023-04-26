@@ -114,6 +114,7 @@ class Article extends Resource
             Currency::make('Prix d\'achat', 'purchase_price')
                 ->size('w-1/3')
                 ->sortable()
+                ->hideFromIndex()
                 ->rules('required'),
             Number::make('Coefficient')
                 ->size('w-1/3')
