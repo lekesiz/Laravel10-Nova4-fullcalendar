@@ -57,8 +57,6 @@ class Supplier extends Resource
             Text::make(__('Email'), 'email')->nullable(),
             Text::make(__('Téléphone'), 'phone')->nullable(),
             Textarea::make('Address')->nullable()->alwaysShow(),
-            DateTime::make('Créé à', 'created_at')->sortable()->readonly()->hideFromIndex(),
-            DateTime::make('Mis à jour à', 'updated_at')->sortable()->readonly()->hideFromIndex(),
         ];
     }
 

@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
@@ -16,6 +17,23 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Article extends Resource
 {
+
+    public static function newModel()
+    {
+        $model = new static::$model;
+        $model::creating(function ($article) {
+            $article->price_including_tax = $article->selling_price * ( 1 + $article->vat_rate / 100 );
+            $article->margin = $article->selling_price - $article->purchase_price;
+            $article->margin_rate = $article->purchase_price ? ($article->margin / $article->purchase_price) * 100 : 0;
+        });
+        $model::updating(function ($article) {
+            $article->price_including_tax = $article->selling_price * ( 1 + $article->vat_rate / 100 );
+            $article->margin = $article->selling_price - $article->purchase_price;
+            $article->margin_rate = $article->purchase_price ? ($article->margin / $article->purchase_price) * 100 : 0;
+        });
+        return $model;
+    }
+
     /**
      * The model the resource corresponds to.
      *
@@ -28,7 +46,7 @@ class Article extends Resource
      *
      * @var string
      */
-    public static $title = 'reference';
+    public static $title = 'designation';
 
     /**
      * The columns that should be searched.
@@ -51,44 +69,82 @@ class Article extends Resource
             ID::make()->sortable(),
             Text::make('Désignation', 'designation')
                 ->size('w-1/3')
+                ->rules('required', 'max:255')
                 ->sortable(),
-            Text::make('Type')
+            Select::make(__('Type'), 'type')
                 ->size('w-1/3')
-                ->sortable(),
-            Text::make('Catégorie', 'category')
+                ->options([
+                    'Fourniture' => 'Fourniture',
+                    'Main d\'oeuvre' => 'Main d\'oeuvre',
+                    'Sous-traitance' => 'Sous-traitance',
+                ])
+                ->sortable()
+                ->rules('required', 'max:255'),            
+            Select::make('Catégorie', 'category')
                 ->size('w-1/3')
-                ->sortable(),
-            Text::make('Unité', 'unit')
+                ->options([
+                    'Produit fini' => 'Produit fini',
+                    'Marchandise' => 'Marchandise',
+                    'Services' => 'Services',
+                    'Main d\'oeuvre' => 'Main d\'oeuvre',
+                ])
+                ->sortable()
+                ->rules('required', 'max:255'),
+            Select::make('Unité', 'unit')
                 ->size('w-1/3')
+                ->options([
+                    'Lot' => 'Lot',
+                    'Forfait' => 'Forfait',
+                    'h' => 'h',
+                    'mL' => 'mL',
+                    'U' => 'U',
+                    'F' => 'F',
+                    'ENS' => 'ENS',
+                    'm2' => 'm2',
+                    'kg' => 'kg',
+                    'g' => 'g',
+                    'L' => 'L',
+                    'm' => 'm',
+                    'cm' => 'cm',
+                    'mm' => 'mm',
+                ])
+                ->sortable()
                 ->hideFromIndex()
-                ->sortable(),
+                ->rules('required', 'max:255'),
             Currency::make('Prix d\'achat', 'purchase_price')
                 ->size('w-1/3')
-                ->default(0)
-                ->sortable(),
+                ->sortable()
+                ->rules('required'),
             Number::make('Coefficient')
                 ->size('w-1/3')
                 ->hideFromIndex()
                 ->default(0)
                 ->sortable(),
-            Currency::make('Prix de vente', 'selling_price')
+            Currency::make('Prix de vente HT', 'selling_price')
                 ->size('w-1/3')
-                ->default(0)
-                ->sortable(),
-            Number::make('Taux de TVA', 'vat_rate')
+                ->sortable()
+                ->rules('required'),
+            Number::make('Taux de TVA %', 'vat_rate')
                 ->size('w-1/3')
-                ->default(0)
-                ->sortable(),
+                ->step(0.01)
+                ->sortable()
+                ->rules('required'),
             Currency::make('Prix TTC', 'price_including_tax')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
                 ->size('w-1/3')
                 ->default(0)
                 ->sortable(),
             Currency::make('Marge', 'margin')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
                 ->size('w-1/3')
                 ->hideFromIndex()
                 ->default(0)
                 ->sortable(),
-            Number::make('Taux de marge', 'margin_rate')
+            Number::make('Taux de marge %', 'margin_rate')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
                 ->size('w-1/3')
                 ->hideFromIndex()
                 ->default(0)
@@ -97,7 +153,7 @@ class Article extends Resource
                 ->size('w-1/3')
                 ->sortable()
                 ->default(function () {
-                    return substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 8)), 0, 8);;
+                    return substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 8)), 0, 8);
                 }),
             Textarea::make('Description')
                 ->nullable()
