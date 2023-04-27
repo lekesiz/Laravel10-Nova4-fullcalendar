@@ -78,13 +78,16 @@ class Intervention extends Resource
                 ->hideFromIndex()
                 ->size('w-1/3'),
             Textarea::make("Adresse d'intervention", 'intervention_address')
+                ->alwaysShow()
                 ->nullable()
                 ->sortable()
                 ->size('w-1/3'),
             Textarea::make('Note adresse', 'address_note')
+                ->alwaysShow()
                 ->nullable()
                 ->size('w-1/3'),
             Textarea::make('Rapport', 'report')
+                ->alwaysShow()
                 ->nullable()
                 ->size('w-1/3'),
             BelongsTo::make('Techniciens', 'technician', User::class)
