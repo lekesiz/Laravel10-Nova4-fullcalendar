@@ -25,8 +25,10 @@ class Article extends Model
         'description',
     ];
 
-    public function supplier()
-    {
+    public function supplier() {
         return $this->belongsTo(Supplier::class);
+    }
+    public function quotes() {
+        return $this->belongsToMany(Quote::class, 'quote_article')->withPivot('quantity'); 
     }
 }

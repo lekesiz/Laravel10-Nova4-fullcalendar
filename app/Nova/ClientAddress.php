@@ -66,6 +66,7 @@ class ClientAddress extends Resource
                 ->rules('required'),
 
             Textarea::make(__('Adresse'), 'address')
+                ->alwaysShow()
                 ->sortable()
                 ->rules('required'),
 
@@ -93,6 +94,7 @@ class ClientAddress extends Resource
                 }),
 
             Textarea::make(__('Note'), 'note')
+                ->alwaysShow()
                 ->sortable()
                 ->nullable(),
 

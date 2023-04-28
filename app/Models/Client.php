@@ -44,4 +44,7 @@ class Client extends Model
     public function ClientTask() {
         return $this->hasMany(Task::class);
     }
+    public function quotes() {
+        return $this->hasMany(Quote::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -109,7 +110,6 @@ class Article extends Resource
                     'mm' => 'mm',
                 ])
                 ->sortable()
-                ->hideFromIndex()
                 ->rules('required', 'max:255'),
             Currency::make('Prix d\'achat', 'purchase_price')
                 ->size('w-1/3')
@@ -153,13 +153,79 @@ class Article extends Resource
             Text::make('Reference')
                 ->size('w-1/3')
                 ->sortable()
-                ->default(function () {
-                    return substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 8)), 0, 8);
-                }),
+                ->default(Str::random(8)),
             Textarea::make('Description')
                 ->nullable()
                 ->alwaysShow(),
-            BelongsTo::make('Fournisseur', 'supplier', 'App\Nova\supplier'),
+            BelongsTo::make('Fournisseur', 'supplier', 'App\Nova\supplier')
+                ->hideFromIndex(),
+        ];
+    }
+
+    public function fieldsForIndex(NovaRequest $request) {
+        return [
+            Text::make('Reference')
+                ->size('w-1/3')
+                ->sortable()
+                ->default(Str::random(8)),
+            Text::make('Désignation', 'designation')
+                ->size('w-1/3')
+                ->rules('required', 'max:255')
+                ->sortable(),
+            Select::make(__('Type'), 'type')
+                ->size('w-1/3')
+                ->options([
+                    'Fourniture' => 'Fourniture',
+                    'Main d\'oeuvre' => 'Main d\'oeuvre',
+                    'Sous-traitance' => 'Sous-traitance',
+                ])
+                ->sortable()
+                ->rules('required', 'max:255'),            
+            Select::make('Catégorie', 'category')
+                ->size('w-1/3')
+                ->options([
+                    'Produit fini' => 'Produit fini',
+                    'Marchandise' => 'Marchandise',
+                    'Services' => 'Services',
+                    'Main d\'oeuvre' => 'Main d\'oeuvre',
+                ])
+                ->sortable()
+                ->rules('required', 'max:255'),
+            Select::make('Unité', 'unit')
+                ->size('w-1/3')
+                ->options([
+                    'Lot' => 'Lot',
+                    'Forfait' => 'Forfait',
+                    'h' => 'h',
+                    'mL' => 'mL',
+                    'U' => 'U',
+                    'F' => 'F',
+                    'ENS' => 'ENS',
+                    'm2' => 'm2',
+                    'kg' => 'kg',
+                    'g' => 'g',
+                    'L' => 'L',
+                    'm' => 'm',
+                    'cm' => 'cm',
+                    'mm' => 'mm',
+                ])
+                ->sortable()
+                ->rules('required', 'max:255'),
+            Currency::make('Prix de vente HT', 'selling_price')
+                ->size('w-1/3')
+                ->sortable()
+                ->rules('required'),
+            Number::make('Taux de TVA %', 'vat_rate')
+                ->size('w-1/3')
+                ->step(0.01)
+                ->sortable()
+                ->rules('required'),
+            Currency::make('Prix TTC', 'price_including_tax')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
+                ->size('w-1/3')
+                ->default(0)
+                ->sortable(),
         ];
     }
 

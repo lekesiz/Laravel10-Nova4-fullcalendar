@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -59,10 +60,7 @@ class Client extends Resource
                 ->size('w-1/3')
                 ->sortable()
                 ->rules('required', 'max:254')
-                ->default(function () {
-                    $randomString = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 11)), 0, 11);
-                    return Carbon::now()->format('YmdHi') . $randomString;
-                }),
+                ->default(Str::random(8)),
 
             Select::make(__('Type Client'), 'client_type')
                 ->size('w-1/3')
