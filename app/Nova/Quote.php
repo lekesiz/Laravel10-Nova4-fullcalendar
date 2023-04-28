@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\Pdf;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -15,7 +16,6 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
-use App\Nova\Actions\DownloadQuotePdf;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -116,95 +116,6 @@ class Quote extends Resource
         ];
     }
 
-    public function fieldsForIndex(NovaRequest $request)
-    {
-        return [
-            Text::make('Référence', 'reference')
-                ->sortable()
-                ->default(Str::random(8)),
-            Date::make('Date de création', 'created_at')
-                ->sortable()
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
-            BelongsTo::make('Client', 'client', Client::class)
-                ->searchable(),
-            Select::make('Statut', 'status')
-                ->sortable()
-                ->options([
-                    'Crée' => 'Crée',
-                    'Facturé' => 'Facturé',
-                    'En retard' => 'En retard',
-                    'Annulé' => 'Annulé',
-                ]),
-            Currency::make('Total HT', 'total_ht')
-                ->min(0)
-                ->step(0.01)
-                ->sortable(),
-            Currency::make('Total TTC', 'total_ttc')
-                ->min(0)
-                ->step(0.01)
-                ->sortable(),
-        ];
-    }
-
-    public function fieldsForDetail(NovaRequest $request) {
-        return [
-            ID::make(__('ID'), 'id')
-                ->sortable()
-                ->size('w-1/3'),
-            Text::make('Référence', 'reference')
-                ->size('w-1/3')
-                ->sortable()
-                ->default(Str::random(8)),
-            Date::make('Date de création', 'created_at')
-                ->size('w-1/3')
-                ->sortable()
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
-            BelongsTo::make('Client', 'client', Client::class)
-                ->size('w-1/3')
-                ->searchable(),
-            Text::make('Objet', 'object')
-                ->size('w-1/3')
-                ->hideFromIndex()
-                ->nullable(),
-            Select::make('Statut', 'status')
-                ->size('w-1/3')
-                ->sortable()
-                ->options([
-                    'Crée' => 'Crée',
-                    'Facturé' => 'Facturé',
-                    'En retard' => 'En retard',
-                    'Annulé' => 'Annulé',
-                ])
-                ->default('Crée'),
-            Textarea::make('Notes', 'notes')
-                ->alwaysShow()
-                ->nullable(),
-            Currency::make('Total HT', 'total_ht')
-                ->size('w-1/3')
-                ->min(0)
-                ->step(0.01)
-                ->sortable(),
-            Currency::make('Total TTC', 'total_ttc')
-                ->size('w-1/3')
-                ->min(0)
-                ->step(0.01)
-                ->sortable(),
-            BelongsToMany::make('Articles', 'articles', Article::class)
-                ->searchable()
-                ->fields(function () {
-                    return [
-                        Number::make('Quantité', 'quantity')
-                        ->min(1)
-                        ->default(1)
-                        ->step(0.01)
-                        ->sortable(),
-                    ];
-                }),
-            ];
-    }
-
     /**
      * Get the cards available for the request.
      *
@@ -247,7 +158,7 @@ class Quote extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            
+            new Pdf,
         ];
     }
 }
