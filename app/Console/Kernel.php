@@ -13,6 +13,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+
+        // ----start----- bu ozellik odeme zamani gecmis faturalarin durumunu odenmedi olarak degistirir
+        $schedule->command('update:invoice-status')->daily();
+        // ----end----- bu ozellik odeme zamani gecmis faturalarin durumunu odenmedi olarak degistirir
+        // bu ozelligin calismasi icin sunucu tarafinda gorev zamanlayiciyi calismamiz lazim
+        // * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
     }
 
     /**

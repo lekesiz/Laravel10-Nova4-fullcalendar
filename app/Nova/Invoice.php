@@ -13,28 +13,21 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
-use App\Nova\Actions\ConvertToInvoice;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Quote extends Resource
+class Invoice extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Quote>
+     * @var class-string<\App\Models\Invoice>
      */
-    public static $model = \App\Models\Quote::class;
-
-    public static function label() {
-        return __('Devis');
-    }
-    public static function singularLabel() {
-        return __('Devis');
-    }
+    public static $model = \App\Models\Invoice::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -80,10 +73,11 @@ class Quote extends Resource
                 ->size('w-1/3')
                 ->sortable()
                 ->options([
-                    'Crée' => 'Crée',
-                    'Facturé' => 'Facturé',
-                    'En retard' => 'En retard',
-                    'Annulé' => 'Annulé',
+                    'Créé' => 'Créé',
+                    'Non payé' => 'Non payé',
+                    'Payé' => 'Payé',
+                    'Partiellement payée' => 'Partiellement payée',
+                    'Converti en avoir' => 'Converti en avoir',
                 ])
                 ->default('Crée'),
             Textarea::make('Notes', 'notes')
@@ -114,6 +108,7 @@ class Quote extends Resource
                         ->sortable(),
                     ];
                 }),
+            HasMany::make('Paiements', 'payments', Payment::class),
         ];
     }
 
@@ -160,7 +155,6 @@ class Quote extends Resource
     {
         return [
             new Pdf,
-            new ConvertToInvoice,
         ];
     }
 }
