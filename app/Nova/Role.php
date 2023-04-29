@@ -49,7 +49,8 @@ class Role extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
             HasMany::make('Users'),
-            BelongsToMany::make('Permissions'),
+            BelongsToMany::make('Permissions')
+                ->searchable(),
         ];
     }
 
