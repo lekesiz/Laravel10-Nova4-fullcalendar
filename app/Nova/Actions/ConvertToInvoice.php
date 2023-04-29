@@ -16,6 +16,11 @@ class ConvertToInvoice extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public function name()
+    {
+        return __('Convertir en facture');
+    }
+
     /**
      * Perform the action on the given models.
      *
@@ -37,7 +42,6 @@ class ConvertToInvoice extends Action
         }
         
         $invoice = Invoice::create([
-            'reference' => Str::random(8),
             'client_id' => $quote->client_id,
             'object' => '(Converti à partir du devis n°' . $quote->reference . ')' . $quote->object,
             'status' => 'Crée',
@@ -52,7 +56,7 @@ class ConvertToInvoice extends Action
         $quote->status = 'Facturé';
         $quote->save();
         
-        return Action::message('Le devis a été converti en facture avec succès. Vérifiez la facture n°' . $invoice->id . '.');
+        return Action::message('Le devis a été converti en facture avec succès. Vérifiez la facture n°' . $invoice->reference . '.');
     }
 
     /**

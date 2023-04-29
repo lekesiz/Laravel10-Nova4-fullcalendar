@@ -49,6 +49,11 @@ class Intervention extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Text::make('Référence', 'reference')
+                ->sortable()
+                ->size('w-1/3')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             Select::make('Type', 'type')
                 ->options([
                     'Planifiée' => 'Planifiée',
@@ -95,11 +100,6 @@ class Intervention extends Resource
             BelongsTo::make('Techniciens', 'technician', User::class)
                 ->searchable()
                 ->size('w-1/3'),
-            Text::make('Référence', 'reference')
-                ->sortable()
-                ->size('w-1/3')
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
             ID::make('Gestion interventions', 'id')
                 ->sortable()
                 ->hideFromIndex()

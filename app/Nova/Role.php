@@ -44,9 +44,10 @@ class Role extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable(),
             Text::make('Nom', 'd_name'),
-            Text::make('Commande', 'name'),
+            Text::make('Commande', 'name')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             HasMany::make('Users'),
             BelongsToMany::make('Permissions'),
         ];

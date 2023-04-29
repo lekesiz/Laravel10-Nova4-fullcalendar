@@ -11,6 +11,12 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Numerator extends Resource
 {
+    public static function label() {
+        return __('Numérateurs');
+    }
+    public static function singularLabel() {
+        return __('Numérateurs');
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -43,7 +49,6 @@ class Numerator extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
             Select::make(__('Model'), 'model')
                 ->options([
                     'App\Models\Intervention' => 'Intervention',
@@ -54,12 +59,14 @@ class Numerator extends Resource
                     'App\Models\Quote' => 'Quote',
                 ])
                 ->displayUsingLabels()
-                ->sortable(),
-            Text::make(__('Prefix'), 'prefix')->sortable()->nullable(),
-            Text::make(__('Suffix'), 'suffix')->sortable()->nullable(),
-            Select::make(__('Date Format'), 'date_format')
+                ->hideWhenUpdating(),
+            Text::make(__('Préfixe'), 'prefix')
+                ->size('w-1/4')
+                ->nullable(),
+            Select::make(__('Format de date'), 'date_format')
+                ->size('w-1/4')
                 ->options([
-                    '' => 'No Date',
+                    '' => 'Pas de date',
                     'Y-m-d-' => 'YYYY-MM-DD',
                     'Ymd-' => 'YYYYMMDD',
                     'y-m-d-' => 'YY-MM-DD',
@@ -67,9 +74,12 @@ class Numerator extends Resource
                     'd-m-Y-' => 'DD-MM-YYYY',
                 ])
                 ->displayUsingLabels()
-                ->sortable()
                 ->nullable(),
-            Number::make(__('Next Number'), 'next_number')->sortable(),
+            Number::make(__('Numéro suivant'), 'next_number')
+                ->size('w-1/4'),
+            Text::make(__('Suffixe'), 'suffix')
+                ->size('w-1/4')
+                ->nullable(),
         ];
     }
 

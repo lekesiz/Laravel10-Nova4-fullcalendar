@@ -16,11 +16,11 @@ class UpdateLastActivity
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check()) {
-            $user = auth()->user();
-            $user->last_activity = Carbon::now();
-            $user->save();
-        }
+        // if (auth()->check()) {
+        //     $user = auth()->user();
+        //     $user->last_activity = Carbon::now();
+        //     $user->save();
+        // }
         return $next($request);
     }
 }

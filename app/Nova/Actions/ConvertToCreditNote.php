@@ -16,6 +16,11 @@ class ConvertToCreditNote extends Action
 {
     use InteractsWithQueue, Queueable;
 
+    public function name()
+    {
+        return __('Convertir en avoir');
+    }
+
     /**
      * Perform the action on the given models.
      *
@@ -32,7 +37,6 @@ class ConvertToCreditNote extends Action
         $invoice = $models->first();
         
         $creditNote = CreditNote::create([
-            'reference' => Str::random(8),
             'client_id' => $invoice->client_id,
             'object' => '(Converti à partir de la facture n°' . $invoice->reference . ')' . $invoice->object,
             'status' => 'En Cours',
@@ -50,7 +54,7 @@ class ConvertToCreditNote extends Action
         $invoice->status = 'Converti en avoir';
         $invoice->save();
         
-        return Action::message("La facture a été convertie en avoir avec succès. Vérifiez l'avoir n°" . $creditNote->id . ".");
+        return Action::message("La facture a été convertie en avoir avec succès. Vérifiez l'avoir n°" . $creditNote->reference . ".");
     }
 
     /**

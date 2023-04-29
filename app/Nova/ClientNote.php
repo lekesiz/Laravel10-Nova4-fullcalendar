@@ -5,7 +5,7 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -50,8 +50,7 @@ class ClientNote extends Resource
 
             BelongsTo::make(__('Client'), 'client', Client::class)->sortable(),
 
-            Textarea::make(__('Notes'), 'notes')
-                ->alwaysShow()
+            Text::make(__('Notes'), 'notes')
                 ->sortable()
                 ->rules('required'),
         ];

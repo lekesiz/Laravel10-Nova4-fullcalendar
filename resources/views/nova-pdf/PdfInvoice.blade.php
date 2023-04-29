@@ -121,7 +121,7 @@ foreach ($model->articles as $article) {
             </div>
             <div style="margin-left:300pt; margin-top: 10px;">
                 <b>Date: </b> {{ $model->created_at->format('d/m/Y') }}<br />
-                <b>Devis N°: </b> {{ $model->reference }}
+                <b>Facture N°: </b> {{ $model->reference }}
             </div>
         </header>
         <main class="page-break">
@@ -220,18 +220,20 @@ foreach ($model->articles as $article) {
                             @endforeach
                             <tr>
                                 <td><b>TOTAL</b></td>
-                                <td><b>{{ number_format($model->total_ttc - $model->total_ht, 2) }} €</b></td>
+                                <td><b>{{ number_format($model->total_ttc, 2) }} €</b></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            @if ($model->client->payment_conditions)
-                <br /><br />
-                <div class="well">
-                    {{ $model->client->payment_conditions }}
-                </div>
-            @endif
+            <div style="margin-top: 100px;">
+                @if ($model->client->payment_conditions)
+                    <br /><br />
+                    <div class="well">
+                        {{ $model->client->payment_conditions }}
+                    </div>
+                @endif
+            <div>
         </main>
     </body>
 </html>

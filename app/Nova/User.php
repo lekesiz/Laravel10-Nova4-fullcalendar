@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Panel;
+use Eminiarts\Tabs\Tabs;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -10,9 +12,11 @@ use Laravel\Nova\Fields\Color;
 use Laravel\Nova\Fields\Avatar;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Textarea;
+use Eminiarts\Tabs\Traits\HasTabs;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Trin4ik\NovaSwitcher\NovaSwitcher;
@@ -20,6 +24,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
+    use HasTabs;
+    
     public static function label()
     {
         return __('Utilisateurs');
@@ -79,37 +85,74 @@ class User extends Resource
      * @return array
      */
     public function fields(NovaRequest $request)
-    {
+    {        
         return [
-            ID::make()->sortable(),
             Avatar::make('Avatar'),
-            Color::make('Couleur', 'color')->nullable(),
+            BelongsTo::make('Role')
+                ->size('w-1/4')
+                ->canSee(function ($request) {
+                    return $request->user()->is_admin;
+                }),
+            NovaSwitcher::make('Actif/Passif', 'is_active')
+                ->size('w-1/4')
+                ->canSee(function ($request) {
+                    return $request->user()->is_admin;
+                }),
+            NovaSwitcher::make('Administrateur', 'is_admin')
+                ->size('w-1/4')
+                ->canSee(function ($request) {
+                    return $request->user()->is_admin;
+                }),
+            Color::make('Couleur', 'color')
+                ->nullable()
+                ->size('w-1/4')
+                ->canSee(function ($request) {
+                    return $request->user()->is_admin;
+                }),
             Text::make('Utilisateur', 'username')
                 ->nullable()
-                ->sortable(),
+                ->sortable()
+                ->size('w-1/4'),
             Text::make('Nom', 'name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->size('w-1/4'),
             Text::make('Prénom', 'last_name')
                 ->sortable()
-                ->rules('required', 'max:255'),
-            Text::make('Mobile')->nullable(),
-            Text::make('Adresse', 'addresse')->nullable()->hideFromIndex(),
-            NovaSwitcher::make('Actif/Passif', 'is_active'),
-            NovaSwitcher::make('Administrateur', 'is_admin'),
+                ->rules('required', 'max:255')
+                ->size('w-1/4'),
+            Text::make('Mobile')
+                ->nullable()
+                ->size('w-1/4'),
+            Text::make('Adresse', 'addresse')
+                ->nullable()
+                ->hideFromIndex()
+                ->size('w-1/4'),
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->updateRules('unique:users,email,{{resourceId}}')
+                ->size('w-1/4'),
             Password::make('Password')
                 ->onlyOnForms()
                 ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
-            BelongsTo::make('Role'),
-            Text::make('N° SS', 'nir')->nullable()->hideFromIndex(),
-            Textarea::make('Note')->nullable(),
-            Text::make('Dernière connexion', 'last_activity'),
+                ->updateRules('nullable', Rules\Password::defaults())
+                ->size('w-1/4'),
+            Text::make('N° SS', 'nir')
+                ->nullable()
+                ->hideFromIndex()
+                ->size('w-1/4'),
+            Text::make('Dernière connexion', 'last_activity')
+                ->size('w-1/4')
+                ->canSee(function ($request) {
+                    return $request->user()->is_admin;
+                }),
+            Textarea::make('Note')
+                ->nullable()
+                ->canSee(function ($request) {
+                    return $request->user()->is_admin;
+                }),
         ];
     }
 

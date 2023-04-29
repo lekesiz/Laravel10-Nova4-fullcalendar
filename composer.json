@@ -13,16 +13,17 @@
         "brick/money": "^0.8.0",
         "codenco-dev/nova-grid-system": "^2.0",
         "coderello/laravel-nova-lang": "^2.0",
+        "eminiarts/nova-tabs": "^2.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.8",
         "laravel/nova": "~4.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "netz/calendar": "@dev",
+        "netz/online_users": "@dev",
         "padocia/laravel-nova-pdf": "^1.0",
         "symfony/polyfill-intl-icu": "^1.27",
-        "trin4ik/nova-switcher": "^0.3.0",
-        "netz/online_users": "@dev"
+        "trin4ik/nova-switcher": "^0.3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

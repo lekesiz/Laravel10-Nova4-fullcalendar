@@ -3,7 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Nova\Actions\ActionEvent;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,6 +43,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function log() {
+        return $this->hasMany(ActionEvent::class);
+    }
+
     public function role() {
         return $this->belongsTo(Role::class);
     }
@@ -60,5 +66,11 @@ class User extends Authenticatable
         //return $this->role->flatMap(function ($role) {
         //  return $role->permission;
         //})->contains('name', $permissionName);
+    }
+
+    public function updateLastActivity()
+    {
+        $this->last_activity = Carbon::now();
+        $this->save();
     }
 }

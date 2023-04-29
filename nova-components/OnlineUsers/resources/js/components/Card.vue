@@ -3,9 +3,11 @@
     <div class="text-center">
       <br />
       <h1 class="text-90 font-normal mb-3">{{ users.length }} Utilisateurs en ligne</h1>
-      <ul>
-        <li v-for="user in users" :key="user.id">{{ user.name }} {{ user.last_name }}</li>
-      </ul>
+      <div class="online-users">
+        <span v-for="(user, index) in users" :key="user.id">
+          <a :href="'/nova/resources/users/' + user.id">{{ user.name }} {{ user.last_name }}</a><span v-if="index < users.length - 1">, </span>
+        </span>
+      </div>
     </div>
   </card>
 </template>
@@ -35,3 +37,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+  .online-users a {
+    margin-right: 5px;
+  }
+</style>

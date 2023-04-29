@@ -21,11 +21,21 @@ class Main extends Dashboard
     {
         return [
             // new Help,
-            (new TotalInvoices)->width('1/4'),
-            (new NewUsers)->width('1/4'),
-            (new NewClients)->width('1/4'),
-            (new OnlineUserCount)->width('1/4'),
-            (new OnlineUsers)->width('1/4'),
+            (new TotalInvoices)->width('1/4')->canSee(function () {
+                return auth()->user()->is_admin;
+            }),
+            (new NewUsers)->width('1/4')->canSee(function () {
+                return auth()->user()->is_admin;
+            }),
+            (new NewClients)->width('1/4')->canSee(function () {
+                return auth()->user()->is_admin;
+            }),
+            (new OnlineUserCount)->width('1/4')->canSee(function () {
+                return auth()->user()->is_admin;
+            }),
+            (new OnlineUsers)->width('1/4')->canSee(function () {
+                return auth()->user()->is_admin;
+            }),
         ];
     }
 }

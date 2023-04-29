@@ -52,7 +52,6 @@ class Supplier extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable(),
             Text::make(__('Nom'), 'name')->sortable(),
             Text::make(__('Email'), 'email')->nullable(),
             Text::make(__('Téléphone'), 'phone')->nullable(),

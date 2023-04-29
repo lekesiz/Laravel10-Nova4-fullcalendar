@@ -2,9 +2,24 @@
 
 namespace App\Providers;
 
+use App\Nova\Log;
+use App\Nova\Role;
+use App\Nova\User;
+use App\Nova\Client;
+use App\Nova\Article;
+use App\Nova\Company;
+use App\Nova\Supplier;
 use Laravel\Nova\Nova;
+use App\Nova\Numerator;
+use App\Nova\Permission;
+use Laravel\Nova\Menu\Menu;
 use Netz\Calendar\Calendar;
+use Illuminate\Http\Request;
+use App\Nova\Dashboards\Main;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuGroup;
 use Netz\OnlineUsers\OnlineUsers;
+use Laravel\Nova\Menu\MenuSection;
 use Illuminate\Support\Facades\Gate;
 use App\Nova\Metrics\OnlineUserCount;
 use Illuminate\Support\Facades\Blade;
@@ -27,7 +42,40 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::footer(function ($request) {
             return Blade::render('NetLogiciel');
         });
-    }
+
+        Nova::mainMenu(function (Request $request, Menu $menu) {
+            $items = [
+                MenuSection::dashboard(Main::class)->icon('home'),
+                MenuSection::resource(Client::class)->icon('users'),
+                MenuSection::make('Calendrier')->path('/calendar')->icon('calendar'),
+            ];
+        
+            if ($request->user()->is_admin) {
+                $items[] = MenuSection::make('Gestion', [
+                    MenuItem::resource(Company::class),
+                    MenuItem::resource(Article::class),
+                    MenuItem::resource(User::class),
+                    MenuItem::resource(Role::class),
+                    MenuItem::resource(Permission::class),
+                    MenuItem::resource(Numerator::class),
+                    MenuItem::resource(Supplier::class),
+                    MenuItem::resource(Log::class),
+                ])->icon('briefcase')->collapsable();
+            }
+        
+            return $items;
+        });
+        
+        Nova::userMenu(function (Request $request, Menu $menu) {
+            $menu->prepend(
+                MenuItem::make(
+                    'My Profile',
+                    "/resources/users/{$request->user()->getKey()}"
+                )
+            );            
+            return $menu;
+        });
+     }
 
     /**
      * Register the Nova routes.
@@ -53,7 +101,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         Gate::define('viewNova', function ($user) {
             return in_array($user->email, [
-                'mikail@lekesiz.org',
+                //
             ]);
         });
     }

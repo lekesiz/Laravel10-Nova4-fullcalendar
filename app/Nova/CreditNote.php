@@ -63,34 +63,31 @@ class CreditNote extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make(__('ID'), 'id')
-                ->sortable()
-                ->size('w-1/2'),
             Date::make('Date de création', 'created_at')
                 ->size('w-1/2')
                 ->sortable()
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
-            BelongsTo::make('Client', 'client', Client::class)
+            Text::make('Référence', 'reference')
                 ->size('w-1/4')
+                ->sortable()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+            BelongsTo::make('Client', 'client', Client::class)
+                ->size('w-1/3')
                 ->searchable(),
             Text::make('Objet', 'object')
-                ->size('w-1/4')
+                ->size('w-1/3')
                 ->hideFromIndex()
                 ->nullable(),
             Select::make('Statut', 'status')
-                ->size('w-1/4')
+                ->size('w-1/3')
                 ->sortable()
                 ->options([
                     'En Cours' => 'En Cours',
                     'Utilisé' => 'Utilisé',
                 ])
                 ->default('En Cours'),
-            Text::make('Référence', 'reference')
-                ->size('w-1/4')
-                ->sortable()
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
             Textarea::make('Notes', 'notes')
                 ->alwaysShow()
                 ->nullable(),

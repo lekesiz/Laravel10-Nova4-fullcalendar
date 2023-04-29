@@ -220,18 +220,20 @@ foreach ($model->articles as $article) {
                             @endforeach
                             <tr>
                                 <td><b>TOTAL</b></td>
-                                <td><b>{{ number_format($model->total_ttc - $model->total_ht, 2) }} €</b></td>
+                                <td><b>{{ number_format($model->total_ttc, 2) }} €</b></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            @if ($model->client->payment_conditions)
-                <br /><br />
-                <div class="well">
-                    {{ $model->client->payment_conditions }}
-                </div>
-            @endif
+            <div style="margin-top: 100px;">
+                @if ($model->client->payment_conditions)
+                    <br /><br />
+                    <div class="well">
+                        {{ $model->client->payment_conditions }}
+                    </div>
+                @endif
+            </div>
         </main>
     </body>
 </html>

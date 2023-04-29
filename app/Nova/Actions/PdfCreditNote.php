@@ -9,6 +9,10 @@ use Padocia\NovaPdf\Actions\ExportToPdf;
 
 class PdfCreditNote extends ExportToPdf
 {
+    public function name()
+    {
+        return __('PDF');
+    }
     /**
      * @param  \Laravel\Nova\Fields\ActionFields  $fields
      * @param  \Illuminate\Support\Collection  $models
@@ -18,7 +22,7 @@ class PdfCreditNote extends ExportToPdf
     public function preview(ActionFields $fields, Collection $models) : View
     {
         $resource = $this->resource;
-        return view('nova-pdf.template', compact('models','resource'));
+        return view('nova-pdf.PdfCreditNote', compact('models','resource'));
     }
 
 }

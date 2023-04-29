@@ -15,11 +15,11 @@ class ClientAddress extends Resource
 {
 
     public static function label() {
-        return __('Adresse du client');
+        return __('Adresses');
     }
 
     public static function singularLabel() {
-        return __('Adresse du client');
+        return __('Adresse');
     }
 
     // menuden kaldirmak icin
