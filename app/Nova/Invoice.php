@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\Pdf;
+use App\Nova\Actions\PdfInvoice;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -18,6 +18,7 @@ use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
+use App\Nova\Actions\ConvertToCreditNote;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Invoice extends Resource
@@ -28,6 +29,15 @@ class Invoice extends Resource
      * @var class-string<\App\Models\Invoice>
      */
     public static $model = \App\Models\Invoice::class;
+
+    public static $displayInNavigation = false;
+
+    public static function label() {
+        return __('Facture');
+    }
+    public static function singularLabel() {
+        return __('Facture');
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -42,7 +52,7 @@ class Invoice extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'reference',
     ];
 
     /**
@@ -63,14 +73,14 @@ class Invoice extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
             BelongsTo::make('Client', 'client', Client::class)
-                ->size('w-1/3')
+                ->size('w-1/4')
                 ->searchable(),
             Text::make('Objet', 'object')
-                ->size('w-1/3')
+                ->size('w-1/4')
                 ->hideFromIndex()
                 ->nullable(),
             Select::make('Statut', 'status')
-                ->size('w-1/3')
+                ->size('w-1/4')
                 ->sortable()
                 ->options([
                     'Créé' => 'Créé',
@@ -80,23 +90,25 @@ class Invoice extends Resource
                     'Converti en avoir' => 'Converti en avoir',
                 ])
                 ->default('Crée'),
+            Text::make('Référence', 'reference')
+                ->size('w-1/4')
+                ->sortable()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             Textarea::make('Notes', 'notes')
                 ->alwaysShow()
                 ->nullable(),
-            Currency::make('Total HT', 'total_ht')
-                ->size('w-1/3')
-                ->min(0)
-                ->step(0.01)
-                ->sortable(),
-            Currency::make('Total TTC', 'total_ttc')
-                ->size('w-1/3')
-                ->min(0)
-                ->step(0.01)
-                ->sortable(),
-            Text::make('Référence', 'reference')
-                ->size('w-1/3')
-                ->sortable()
-                ->default(Str::random(8)),
+            Text::make('Total HT', function () {
+                    return number_format($this->total_ht, 2, ',', ' ') . ' €';
+                })
+                    ->size('w-1/3')
+                    ->sortable(),
+                
+            Text::make('Total TTC', function () {
+                    return number_format($this->total_ttc, 2, ',', ' ') . ' €';
+                })
+                    ->size('w-1/3')
+                    ->sortable(),
             BelongsToMany::make('Articles', 'articles', Article::class)
                 ->searchable()
                 ->fields(function () {
@@ -154,7 +166,8 @@ class Invoice extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            new Pdf,
+            new PdfInvoice,
+            new ConvertToCreditNote,
         ];
     }
 }

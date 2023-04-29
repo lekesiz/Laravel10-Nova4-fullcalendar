@@ -67,7 +67,6 @@ class Article extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable(),
             Text::make('Désignation', 'designation')
                 ->size('w-1/3')
                 ->rules('required', 'max:255')
@@ -115,7 +114,10 @@ class Article extends Resource
                 ->size('w-1/3')
                 ->sortable()
                 ->hideFromIndex()
-                ->rules('required'),
+                ->rules('required')
+                ->canSee(function ($request) {
+                    return $request->user()->is_admin;
+                }),
             Number::make('Coefficient')
                 ->size('w-1/3')
                 ->hideFromIndex()
@@ -142,7 +144,10 @@ class Article extends Resource
                 ->size('w-1/3')
                 ->hideFromIndex()
                 ->default(0)
-                ->sortable(),
+                ->sortable()
+                ->canSee(function ($request) {
+                    return $request->user()->is_admin;
+                }),
             Number::make('Taux de marge %', 'margin_rate')
                 ->hideWhenUpdating()
                 ->hideWhenCreating()
@@ -153,7 +158,8 @@ class Article extends Resource
             Text::make('Reference')
                 ->size('w-1/3')
                 ->sortable()
-                ->default(Str::random(8)),
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             Textarea::make('Description')
                 ->nullable()
                 ->alwaysShow(),

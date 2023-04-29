@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Laravel\Nova\Nova;
 use Netz\Calendar\Calendar;
+use Netz\OnlineUsers\OnlineUsers;
 use Illuminate\Support\Facades\Gate;
+use App\Nova\Metrics\OnlineUserCount;
 use Illuminate\Support\Facades\Blade;
 use CodencoDev\NovaGridSystem\NovaGridSystem;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -35,9 +37,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function routes()
     {
         Nova::routes()
-                ->withAuthenticationRoutes()
-                ->withPasswordResetRoutes()
-                ->register();
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register();
     }
 
     /**

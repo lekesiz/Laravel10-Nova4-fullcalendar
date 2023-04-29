@@ -7,7 +7,7 @@ use Illuminate\View\View;
 use Laravel\Nova\Fields\ActionFields;
 use Padocia\NovaPdf\Actions\ExportToPdf;
 
-class Pdf extends ExportToPdf
+class PdfQuote extends ExportToPdf
 {
     /**
      * @param  \Laravel\Nova\Fields\ActionFields  $fields
@@ -20,5 +20,4 @@ class Pdf extends ExportToPdf
         $resource = $this->resource;
         return view('nova-pdf.template', compact('models','resource'));
     }
-
 }

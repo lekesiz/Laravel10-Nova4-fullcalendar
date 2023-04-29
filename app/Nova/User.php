@@ -109,6 +109,7 @@ class User extends Resource
             BelongsTo::make('Role'),
             Text::make('N° SS', 'nir')->nullable()->hideFromIndex(),
             Textarea::make('Note')->nullable(),
+            Text::make('Dernière connexion', 'last_activity'),
         ];
     }
 

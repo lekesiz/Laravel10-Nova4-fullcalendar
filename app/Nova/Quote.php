@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\Pdf;
+use App\Nova\Actions\PdfQuote;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -29,6 +29,8 @@ class Quote extends Resource
      */
     public static $model = \App\Models\Quote::class;
 
+    public static $displayInNavigation = false;
+
     public static function label() {
         return __('Devis');
     }
@@ -49,7 +51,7 @@ class Quote extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'reference',
     ];
 
     /**
@@ -61,10 +63,12 @@ class Quote extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make(__('ID'), 'id')
-                ->sortable()
-                ->size('w-1/2'),
             Date::make('Date de création', 'created_at')
+                ->size('w-1/2')
+                ->sortable()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+            Text::make('Référence', 'reference')
                 ->size('w-1/2')
                 ->sortable()
                 ->hideWhenCreating()
@@ -89,20 +93,16 @@ class Quote extends Resource
             Textarea::make('Notes', 'notes')
                 ->alwaysShow()
                 ->nullable(),
-            Currency::make('Total HT', 'total_ht')
-                ->size('w-1/3')
-                ->min(0)
-                ->step(0.01)
-                ->sortable(),
-            Currency::make('Total TTC', 'total_ttc')
-                ->size('w-1/3')
-                ->min(0)
-                ->step(0.01)
-                ->sortable(),
-            Text::make('Référence', 'reference')
-                ->size('w-1/3')
-                ->sortable()
-                ->default(Str::random(8)),
+            Text::make('Total HT', function () {
+                    return number_format($this->total_ht, 2, ',', ' ') . ' €';
+                })
+                    ->size('w-1/2')
+                    ->sortable(),
+            Text::make('Total TTC', function () {
+                    return number_format($this->total_ttc, 2, ',', ' ') . ' €';
+                })
+                    ->size('w-1/2')
+                    ->sortable(),
             BelongsToMany::make('Articles', 'articles', Article::class)
                 ->searchable()
                 ->fields(function () {
@@ -159,7 +159,7 @@ class Quote extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            new Pdf,
+            new PdfQuote,
             new ConvertToInvoice,
         ];
     }

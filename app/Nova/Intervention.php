@@ -22,12 +22,14 @@ class Intervention extends Resource
      */
     public static $model = \App\Models\Intervention::class;
 
+    public static $displayInNavigation = false;
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'reference';
 
     /**
      * The columns that should be searched.
@@ -35,7 +37,7 @@ class Intervention extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'reference',
     ];
 
     /**
@@ -94,11 +96,10 @@ class Intervention extends Resource
                 ->searchable()
                 ->size('w-1/3'),
             Text::make('Référence', 'reference')
-                ->default(function () {
-                    return substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 8)), 0, 8);
-                })
                 ->sortable()
-                ->size('w-1/3'),
+                ->size('w-1/3')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             ID::make('Gestion interventions', 'id')
                 ->sortable()
                 ->hideFromIndex()

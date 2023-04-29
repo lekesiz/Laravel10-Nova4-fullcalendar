@@ -2,12 +2,27 @@
 
 namespace App\Models;
 
+use App\Services\NumeratorManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
     use HasFactory;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $numeratorManager = new NumeratorManager();
+            $nextNumber = $numeratorManager->getNextNumberForModel(get_class($model));
+            $formattedNumber = $numeratorManager->formatNumberForModel(get_class($model), $nextNumber);
+
+            $model->reference = $formattedNumber;
+            $numeratorManager->incrementNumberForModel(get_class($model));
+        });
+    }
 
     protected $fillable = [
         'reference',
@@ -44,7 +59,16 @@ class Client extends Model
     public function ClientTask() {
         return $this->hasMany(Task::class);
     }
-    public function quotes() {
+    public function Quote() {
         return $this->hasMany(Quote::class);
+    }
+    public function CreditNote() {
+        return $this->hasMany(CreditNote::class);
+    }
+    public function Intervention() {
+        return $this->hasMany(Intervention::class);
+    }
+    public function Invoice() {
+        return $this->hasMany(Invoice::class);
     }
 }

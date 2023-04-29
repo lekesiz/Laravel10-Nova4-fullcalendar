@@ -59,9 +59,8 @@ class Client extends Resource
             Text::make(__('Référence'), 'reference')
                 ->size('w-1/3')
                 ->sortable()
-                ->rules('required', 'max:254')
-                ->default(Str::random(8)),
-
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             Select::make(__('Type Client'), 'client_type')
                 ->size('w-1/3')
                 ->options([
@@ -163,6 +162,10 @@ class Client extends Resource
             HasMany::make(__('Document du client'), 'ClientDocument', ClientDocument::class),
             HasMany::make(__('Tâche du client'), 'ClientTask', Task::class),
             HasMany::make(__('Note du client'), 'ClientNote', ClientNote::class),
+            HasMany::make(__('Devis'), 'Quote', Quote::class),
+            HasMany::make(__('Facture'), 'Invoice', Invoice::class),
+            HasMany::make(__('Avoirs'), 'CreditNote', CreditNote::class),
+            HasMany::make(__('Intervention'), 'Intervention', Intervention::class),
         ];
     }
 

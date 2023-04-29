@@ -21,7 +21,8 @@
         "netz/calendar": "@dev",
         "padocia/laravel-nova-pdf": "^1.0",
         "symfony/polyfill-intl-icu": "^1.27",
-        "trin4ik/nova-switcher": "^0.3.0"
+        "trin4ik/nova-switcher": "^0.3.0",
+        "netz/online_users": "@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -40,6 +41,10 @@
         {
             "type": "path",
             "url": "./nova-components/Calendar"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/OnlineUsers"
         }
     ],
     "autoload": {

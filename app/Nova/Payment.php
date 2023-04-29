@@ -22,6 +22,8 @@ class Payment extends Resource
      */
     public static $model = \App\Models\Payment::class;
 
+    public static $displayInNavigation = false;
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
