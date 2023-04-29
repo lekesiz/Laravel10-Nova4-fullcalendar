@@ -13,7 +13,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ClientAddress extends Resource
 {
-
     public static function label() {
         return __('Adresses');
     }

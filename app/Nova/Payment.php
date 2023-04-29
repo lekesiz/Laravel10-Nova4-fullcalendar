@@ -61,7 +61,8 @@ class Payment extends Resource
                     'Chèque' => 'Chèque',
                     'Espèce' => 'Espèce',
                     'PayPal' => 'PayPal',
-                ]),
+                ])
+                ->rules('required'),
             Currency::make('Amount')->sortable()->step(0.01),
         ];
     }
