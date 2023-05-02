@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Nova\Log;
 use App\Nova\Role;
 use App\Nova\User;
+use App\Nova\Quote;
 use App\Nova\Client;
 use App\Nova\Article;
 use App\Nova\Company;
+use App\Nova\Invoice;
 use App\Nova\Supplier;
 use Laravel\Nova\Nova;
 use App\Nova\Numerator;
@@ -47,6 +49,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             $items = [
                 MenuSection::dashboard(Main::class)->icon('home'),
                 MenuSection::resource(Client::class)->icon('users'),
+                MenuSection::resource(Invoice::class)->icon('invoice'),
                 MenuSection::make('Calendrier')->path('/calendar')->icon('calendar'),
             ];
         

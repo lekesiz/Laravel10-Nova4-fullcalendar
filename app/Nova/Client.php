@@ -122,25 +122,25 @@ class Client extends Resource
                         ->nullable(),
 
                     Number::make(__('Remise'), 'discount')
-                        ->size('w-1/3')
+                        ->size('w-1/4')
                         ->hideFromIndex()
                         ->sortable()
                         ->nullable(),
 
                     Text::make(__('Site Web'), 'website')
-                        ->size('w-1/3')
+                        ->size('w-1/4')
                         ->hideFromIndex()
                         ->sortable()
                         ->nullable(),
 
                     Text::make(__('Siret'), 'siret')
-                        ->size('w-1/3')
+                        ->size('w-1/4')
                         ->hideFromIndex()
                         ->sortable()
                         ->nullable(),
 
                     Text::make(__('TVA'), 'vat')
-                        ->size('w-1/3')
+                        ->size('w-1/4')
                         ->hideFromIndex()
                         ->sortable()
                         ->nullable(),
