@@ -15,7 +15,7 @@ class PermissionPolicy
         return $user->is_admin || $user->hasPermission('permission_view');
     }
     public function create(User $user): bool {
-        return $user->is_admin || $user->hasPermission('permission_create');
+        return false;
     }
     public function update(User $user, Permission $permission): bool {
         return $user->is_admin || $user->hasPermission('permission_update');

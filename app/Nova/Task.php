@@ -16,6 +16,15 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Task extends Resource
 {
+
+    public static function label()
+    {
+        return __('Tâches');
+    }
+    public static function singularLabel()
+    {
+        return __('Tâche');
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -24,7 +33,7 @@ class Task extends Resource
     public static $model = \App\Models\Task::class;
 
     // menuden kaldirmak icin
-    public static $displayInNavigation = false;
+    public static $displayInNavigation = true;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

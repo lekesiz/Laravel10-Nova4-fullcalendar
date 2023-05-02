@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -160,7 +161,8 @@ class Article extends Resource
                 ->sortable()
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
-            Textarea::make('Description')
+            Markdown::make('Description')
+                ->preset('commonmark')
                 ->nullable()
                 ->alwaysShow(),
             BelongsTo::make('Fournisseur', 'supplier', 'App\Nova\supplier')

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Nova\Log;
 use App\Nova\Role;
+use App\Nova\Task;
 use App\Nova\User;
 use App\Nova\Quote;
 use App\Nova\Client;
@@ -13,7 +14,9 @@ use App\Nova\Invoice;
 use App\Nova\Supplier;
 use Laravel\Nova\Nova;
 use App\Nova\Numerator;
+use App\Nova\CreditNote;
 use App\Nova\Permission;
+use App\Nova\Intervention;
 use Laravel\Nova\Menu\Menu;
 use Netz\Calendar\Calendar;
 use Illuminate\Http\Request;
@@ -49,7 +52,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             $items = [
                 MenuSection::dashboard(Main::class)->icon('home'),
                 MenuSection::resource(Client::class)->icon('users'),
-                MenuSection::resource(Invoice::class)->icon('invoice'),
+                MenuSection::resource(Task::class)->icon('document-text'),
+                MenuSection::resource(Intervention::class)->icon('archive'),
+                MenuSection::resource(Quote::class)->icon('clipboard-check'),
+                MenuSection::resource(Invoice::class)->icon('document-duplicate'),
+                MenuSection::resource(CreditNote::class)->icon('document-remove'),
                 MenuSection::make('Calendrier')->path('/calendar')->icon('calendar'),
             ];
         
@@ -109,8 +116,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         // });
 
         Gate::define('viewNova', function ($user) {
-            $allowedEmails = User::pluck('email')->toArray();
-            return in_array($user->email, $allowedEmails);
+            return $user->is_active;
         });
     }
 

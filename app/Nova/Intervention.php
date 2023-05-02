@@ -22,7 +22,7 @@ class Intervention extends Resource
      */
     public static $model = \App\Models\Intervention::class;
 
-    public static $displayInNavigation = false;
+    public static $displayInNavigation = true;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

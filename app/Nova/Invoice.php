@@ -30,7 +30,7 @@ class Invoice extends Resource
      */
     public static $model = \App\Models\Invoice::class;
 
-    public static $displayInNavigation = false;
+    public static $displayInNavigation = true;
 
     public static function label() {
         return __('Facture');

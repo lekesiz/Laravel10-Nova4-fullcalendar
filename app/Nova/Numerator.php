@@ -54,9 +54,9 @@ class Numerator extends Resource
                     'App\Models\Intervention' => 'Intervention',
                     'App\Models\Client' => 'Client',
                     'App\Models\Article' => 'Article',
-                    'App\Models\CreditNote' => 'CreditNote',
-                    'App\Models\Invoice' => 'Invoice',
-                    'App\Models\Quote' => 'Quote',
+                    'App\Models\CreditNote' => 'Avoir',
+                    'App\Models\Invoice' => 'Facture',
+                    'App\Models\Quote' => 'Devis',
                 ])
                 ->displayUsingLabels()
                 ->hideWhenUpdating(),

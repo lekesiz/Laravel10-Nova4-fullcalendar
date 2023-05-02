@@ -56,6 +56,7 @@ class ClientDocument extends Resource
                 ->rules('required'),
 
             File::make(__('Document'), 'document')
+                ->disk('s3')
                 ->sortable()
                 ->rules('required', 'file'),
         ];

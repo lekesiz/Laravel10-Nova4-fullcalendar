@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\CompanieSeeder;
+use Database\Seeders\NumeratorSeeder;
 use Database\Seeders\PermissionSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +19,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             AdminSeeder::class,
+            NumeratorSeeder::class,
+            CompanieSeeder::class,
         ]);
         
         // \App\Models\User::factory(10)->create();

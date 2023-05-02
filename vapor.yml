@@ -1,5 +1,5 @@
-id: 46292
-name: Net-20230502
+id: 45597
+name: NetLogiciel
 environments:
     production:
         memory: 1024
@@ -8,4 +8,25 @@ environments:
         build:
             - 'composer install --no-dev'
             - 'php artisan event:cache'
-          # - 'npm ci && npm run build && rm -rf node_modules'
+    staging:
+        storage: netlogiciel
+        domain: netzsrv.fr
+        database: netz
+        cache: netz
+        memory: 2048
+        cli-memory: 1024
+        runtime: 'php-8.2:al2'
+        build:
+            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+            - 'npm ci && npm run build && rm -rf node_modules'
+            - 'php artisan event:cache'
+        deploy:
+            - 'php artisan migrate --force'
+    web:
+        memory: 1024
+        cli-memory: 512
+        runtime: 'php-8.2:al2'
+        build:
+            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+            - 'php artisan event:cache'
+            - 'npm ci && npm run prod && rm -rf node_modules'

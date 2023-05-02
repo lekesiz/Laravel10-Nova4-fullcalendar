@@ -57,8 +57,8 @@ class Client extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Tabs::make(__('Client Custom Details'), [
-                new Panel(__('Details'), [
+            // Tabs::make(__('Client Custom Details'), [
+            //     new Panel(__('Details'), [
                     Text::make(__('Référence'), 'reference')
                         ->sortable()
                         ->hideWhenCreating()
@@ -156,17 +156,12 @@ class Client extends Resource
                         ->hideFromIndex()
                         ->sortable()
                         ->nullable(),
-                ]),
+                // ]),
                     HasMany::make(__('Adresse'), 'ClientAddress', ClientAddress::class),
                     HasMany::make(__('Contact'), 'ClientContact', ClientContact::class),
                     HasMany::make(__('Document'), 'ClientDocument', ClientDocument::class),
                     HasMany::make(__('Note'), 'ClientNote', ClientNote::class),
-                    HasMany::make(__('Tâche'), 'ClientTask', Task::class),
-                    HasMany::make(__('Intervention'), 'Intervention', Intervention::class),
-                    HasMany::make(__('Devis'), 'Quote', Quote::class),
-                    HasMany::make(__('Facture'), 'Invoice', Invoice::class),
-                    HasMany::make(__('Avoirs'), 'CreditNote', CreditNote::class),
-            ]),
+            // ]),
         ];
     }
 

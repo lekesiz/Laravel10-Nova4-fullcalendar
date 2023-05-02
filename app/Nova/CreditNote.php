@@ -29,7 +29,7 @@ class CreditNote extends Resource
      */
     public static $model = \App\Models\CreditNote::class;
 
-    public static $displayInNavigation = false;
+    public static $displayInNavigation = true;
 
     public static function label() {
         return __('Avoirs');

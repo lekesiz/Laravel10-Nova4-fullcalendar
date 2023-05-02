@@ -92,7 +92,7 @@ class Company extends Resource
                 ->nullable(),
 
             Image::make(__('Logo'), 'logo')
-                ->disk('public')
+                ->disk('s3')
                 ->nullable()
                 ->prunable(),
         ];

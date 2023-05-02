@@ -87,7 +87,7 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {        
         return [
-            Avatar::make('Avatar'),
+            Avatar::make('Avatar', 'avatar', 's3'),
             BelongsTo::make('Role')
                 ->size('w-1/4')
                 ->canSee(function ($request) {

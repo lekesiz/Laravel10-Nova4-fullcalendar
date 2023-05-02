@@ -14,6 +14,15 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ClientContact extends Resource
 {
+
+    public static function label() {
+        return __('Contact');
+    }
+
+    public static function singularLabel() {
+        return __('Contact');
+    }
+
     // menuden kaldirmak icin
     public static $displayInNavigation = false;
     
@@ -29,7 +38,7 @@ class ClientContact extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'last_name';
 
     /**
      * The columns that should be searched.
