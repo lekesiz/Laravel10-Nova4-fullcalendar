@@ -5,8 +5,9 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use App\Nova\Fields\Multiselect;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\MultiSelect;
+use Laravel\Nova\Fields\PermissionsMultiselect;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 

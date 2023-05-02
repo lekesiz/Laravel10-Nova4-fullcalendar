@@ -21,7 +21,7 @@ class PermissionPolicy
         return $user->is_admin || $user->hasPermission('permission_update');
     }
     public function delete(User $user, Permission $permission): bool {
-        return $user->is_admin || $user->hasPermission('permission_delete');
+        return false;
     }
     public function restore(User $user, Permission $permission): bool {
         return $user->is_admin;
