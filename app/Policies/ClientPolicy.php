@@ -29,4 +29,7 @@ class ClientPolicy
     public function forceDelete(User $user, Client $client): bool {
         return $user->is_admin;
     }
+    public function uploadFiles(User $user) {
+        return true;
+    }
 }

@@ -9,10 +9,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "barryvdh/laravel-dompdf": "^2.0",
+        "aws/aws-sdk-php": "^3.269",
         "brick/money": "^0.8.0",
         "codenco-dev/nova-grid-system": "^2.0",
         "coderello/laravel-nova-lang": "^2.0",
+        "dompdf/dompdf": "^2.0",
         "eminiarts/nova-tabs": "^2.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.8",
@@ -24,6 +25,7 @@
         "netz/calendar": "^1.0",
         "netz/online_users": "^1.0",
         "padocia/laravel-nova-pdf": "^1.0",
+        "spatie/browsershot": "^3.57",
         "symfony/polyfill-intl-icu": "^1.27",
         "trin4ik/nova-switcher": "^0.3.0"
     },

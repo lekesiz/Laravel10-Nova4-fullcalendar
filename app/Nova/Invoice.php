@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\PdfInvoice;
+use App\Nova\Actions\InvoicePdfAction;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -163,7 +163,7 @@ class Invoice extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            new PdfInvoice,
+            new InvoicePdfAction,
             new ConvertToCreditNote,
         ];
     }

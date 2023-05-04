@@ -29,4 +29,7 @@ class InvoicePolicy
     public function forceDelete(User $user, Invoice $invoice): bool {
         return $user->is_admin;
     }
+    public function uploadFiles(User $user) {
+        return true;
+    }
 }

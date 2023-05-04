@@ -2,12 +2,12 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\PdfQuote;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use App\Nova\Actions\QuotePdfAction;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -159,7 +159,7 @@ class Quote extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            new PdfQuote,
+            new QuotePdfAction,
             new ConvertToInvoice,
         ];
     }

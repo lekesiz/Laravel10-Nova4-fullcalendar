@@ -22,6 +22,7 @@ environments:
             - 'php artisan event:cache'
         deploy:
             - 'php artisan migrate --force'
+            
     web:
         memory: 1024
         cli-memory: 512

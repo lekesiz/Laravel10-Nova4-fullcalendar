@@ -29,4 +29,7 @@ class QuotePolicy
     public function forceDelete(User $user, Quote $quote): bool {
         return $user->is_admin;
     }
+    public function uploadFiles(User $user) {
+        return true;
+    }
 }

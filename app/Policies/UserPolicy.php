@@ -31,4 +31,7 @@ class UserPolicy
     public function forceDelete(User $user, User $model): bool {
         return $user->is_admin;
     }
+    public function uploadFiles(User $user) {
+        return true;
+    }
 }

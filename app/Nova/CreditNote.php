@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\PdfCreditNote;
+use App\Nova\Actions\CreditNotePdfAction;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -158,7 +158,7 @@ class CreditNote extends Resource
     public function actions(NovaRequest $request)
     {
         return [
-            new PdfCreditNote,
+            new CreditNotePdfAction,
         ];
     }
 }

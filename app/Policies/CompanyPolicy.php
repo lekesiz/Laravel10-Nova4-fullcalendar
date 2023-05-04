@@ -29,4 +29,7 @@ class CompanyPolicy
     public function forceDelete(User $user, Company $company): bool {
         return $user->is_admin;
     }
+    public function uploadFiles(User $user) {
+        return true;
+    }
 }
